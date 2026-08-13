@@ -1,0 +1,236 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &200113701429580105
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_Name
+      value: PF_Polyguy_Debug
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931247242711128128, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.12197
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931247242711128128, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.66325
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931247242711128128, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 75.77682
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931247242711128128, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931247242711128128, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931247242711128128, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931247242711128128, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931247242711128128, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931247242711128128, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931247242711128128, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8215976188456288247}
+    - targetCorrespondingSourceObject: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4125738517813595718}
+    - targetCorrespondingSourceObject: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1818295410775815415}
+  m_SourcePrefab: {fileID: 100100000, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+--- !u!114 &509113358387194779 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 420604699984870098, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+  m_PrefabInstance: {fileID: 200113701429580105}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465932085967033267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d1292c09bf6fd6499d198272b48e163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArmorState
+--- !u!114 &6049112434174407675 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5851356707644187314, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+  m_PrefabInstance: {fileID: 200113701429580105}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465932085967033267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e6a188c8a82ce04587b75a9c48a9eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AppearanceState
+--- !u!114 &7302772100240901736 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7466505087634380577, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+  m_PrefabInstance: {fileID: 200113701429580105}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465932085967033267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee2a2e9421fdea546b17f328e07b48b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponState
+--- !u!1 &7465932085967033267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+  m_PrefabInstance: {fileID: 200113701429580105}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8215976188456288247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465932085967033267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c120f876a8e814898edbf2914c2508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArmorTester
+  state: {fileID: 509113358387194779}
+  sets:
+  - setName: Type 1
+    pieces:
+    - {fileID: 11400000, guid: 0d8cf877f6e1ecc4bac51e2f5367afeb, type: 2}
+    - {fileID: 11400000, guid: 757b43eddf8df73488ac896dbd967c99, type: 2}
+    - {fileID: 11400000, guid: d546ca54ba7e251489f6645229805863, type: 2}
+    - {fileID: 11400000, guid: 1d1f8069747677d4f8c18759dde4ba68, type: 2}
+    - {fileID: 11400000, guid: 6c6f9e6c6e5afd44aa52e5bfd3ad964c, type: 2}
+    - {fileID: 11400000, guid: 8539f4abee370ad4c81665e95cba279f, type: 2}
+  - setName: Type 2
+    pieces:
+    - {fileID: 11400000, guid: 46a6afc5e55c0f74d9d2697d6ff6574f, type: 2}
+    - {fileID: 11400000, guid: f78e71b58704a734f977f12af95c0562, type: 2}
+    - {fileID: 11400000, guid: bfbb1a3e301e0004683bbc14934fd038, type: 2}
+    - {fileID: 11400000, guid: 7efa2017aeea2724590574d49cd674c0, type: 2}
+    - {fileID: 11400000, guid: 5f7b72cf320d9bb4bb0164f045e89c73, type: 2}
+    - {fileID: 11400000, guid: 93cde4018b35f7045abd03fd8677e951, type: 2}
+  - setName: Type 3
+    pieces:
+    - {fileID: 11400000, guid: 0ef61f260886522489188643cb6f2485, type: 2}
+    - {fileID: 11400000, guid: fd836b5cfec6e1c4d88c635e986fa348, type: 2}
+    - {fileID: 11400000, guid: 96132e9788f285d41add9950c4a16a28, type: 2}
+    - {fileID: 11400000, guid: 1a87f45e40c97334aa436ad3f4233817, type: 2}
+    - {fileID: 11400000, guid: 694babcd0ec978048bdeb061455b6929, type: 2}
+    - {fileID: 11400000, guid: 6b625c47a35d4c24695547190150be08, type: 2}
+  - setName: Type 4
+    pieces:
+    - {fileID: 11400000, guid: 81cdeceaebe5c6f4aa6ce4482c6bf9fb, type: 2}
+    - {fileID: 11400000, guid: 1203c76b120cc9b44adc79afd10c67cf, type: 2}
+    - {fileID: 11400000, guid: 58fd129355988df43ae33f85b1097e9a, type: 2}
+    - {fileID: 11400000, guid: b3d9f32a3a37cb641bd8e2f5560c1523, type: 2}
+    - {fileID: 11400000, guid: abb810cf947343e408e231670026de4a, type: 2}
+    - {fileID: 11400000, guid: c40d2cdaff686d545be300ecf564b73d, type: 2}
+  - setName: Type 5
+    pieces:
+    - {fileID: 11400000, guid: 8bce75a4ab8680842b7f0055d5660a61, type: 2}
+    - {fileID: 11400000, guid: bb3611a2cd859fa4eb16444658bbc2e3, type: 2}
+    - {fileID: 11400000, guid: 95fba28f33710de4081add24f071bb67, type: 2}
+    - {fileID: 11400000, guid: ed64ab47f3f58f04a9a71c697421414f, type: 2}
+    - {fileID: 11400000, guid: 0b079b8b3f8c6f14dbfadabf86bc76eb, type: 2}
+    - {fileID: 11400000, guid: b47ce6f66ef33e645b4634c7a1fa9c59, type: 2}
+  - setName: Type 6
+    pieces:
+    - {fileID: 11400000, guid: 89c59ba7237a6ba4bb594d76fb04b5c8, type: 2}
+    - {fileID: 11400000, guid: fbfa3258eb70f32408da6d3d390f394a, type: 2}
+    - {fileID: 11400000, guid: 84466a915e8664b4b8e7cf000966b966, type: 2}
+    - {fileID: 11400000, guid: 186687be734a8994188922594a3c3f1d, type: 2}
+    - {fileID: 11400000, guid: ff58e44e16d8b4a4c99d2f97e8bf6024, type: 2}
+    - {fileID: 11400000, guid: 4997c6d520039044788f6cf805cf07d2, type: 2}
+--- !u!114 &4125738517813595718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465932085967033267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b2989c7d36b3a40ab0d52d50f56c4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponTester
+  state: {fileID: 7302772100240901736}
+  sets:
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 326124fa5b9df5842824e9ee670e7cd1, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: c35f7082f21a70943bce38bb9d437477, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 106b1f91d4de57543977d669afd17cb2, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 07d8461c6ee32c246a2898f5b3f52c76, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 1509133b8f858ea48b871513dc384fd4, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 00fb61dcd70dc414a928573a10e2d5a6, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 49904608525d6114faff8d8218fb128c, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: edb4bd0a7e124864989df18788123366, type: 2}
+--- !u!114 &1818295410775815415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465932085967033267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4953756306393244185075f074ae9b80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AppearanceTester
+  state: {fileID: 6049112434174407675}
+  sets:
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 19551da93164a0243abc690d797750b8, type: 2}
+    - {fileID: 11400000, guid: b2cb389d04c59fd4d8959543508992a3, type: 2}
+    - {fileID: 11400000, guid: 63573c0141c82d8428ca08f32eb4d933, type: 2}
+    - {fileID: 11400000, guid: c764d9158f50360439bc50976624d653, type: 2}
+    - {fileID: 11400000, guid: 143b135915b1819439d8fe9a10bdde01, type: 2}
+    - {fileID: 11400000, guid: a6e16eeb20469404dbacdbbb92c254c7, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 32cabc7040c2ca042aa366a8c258ced7, type: 2}
+    - {fileID: 11400000, guid: 1a9c62763cbad414eb433fa630930a40, type: 2}
+    - {fileID: 11400000, guid: 71237ee35ba8eb044b0a557fa37c23d1, type: 2}
+    - {fileID: 11400000, guid: 513f7f02441afdb40bf1f3c4d3aba13c, type: 2}
+    - {fileID: 11400000, guid: d20c1b6e51b46a8459599d7d6dc671f8, type: 2}
+    - {fileID: 11400000, guid: 6593264ab2bf82e489d4addfafc63ebd, type: 2}

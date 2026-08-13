@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cb33a8bb0fb8d409278c67dc410741, type: 3}
+  m_Name: Mainhand_Hammer_Double
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  displayName: Mainhand Hammer Double
+  slot: 0
+  mesh: {fileID: 7391689552586879615, guid: 24e7524c97d0407468b5f0837b1c785a, type: 3}
+  materials:
+  - {fileID: -8109223890375856091, guid: 24e7524c97d0407468b5f0837b1c785a, type: 3}
+  - {fileID: 2794819930971982109, guid: 24e7524c97d0407468b5f0837b1c785a, type: 3}
+  - {fileID: 6211963350999532829, guid: 24e7524c97d0407468b5f0837b1c785a, type: 3}
+  - {fileID: -3813513559006137836, guid: 24e7524c97d0407468b5f0837b1c785a, type: 3}
+  drawn:
+    socket: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationEulerOffset: {x: 0, y: 0, z: 0}
+  holstered:
+    socket: 4
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationEulerOffset: {x: 0, y: 0, z: 0}

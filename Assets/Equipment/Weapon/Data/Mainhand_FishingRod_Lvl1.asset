@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cb33a8bb0fb8d409278c67dc410741, type: 3}
+  m_Name: Mainhand_FishingRod_Lvl1
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  displayName: Mainhand FishingRod Lvl1
+  slot: 0
+  mesh: {fileID: -1363563675909970321, guid: a205b17c1730543489ed9bba0e97de37, type: 3}
+  materials:
+  - {fileID: -1444460858095362738, guid: a205b17c1730543489ed9bba0e97de37, type: 3}
+  drawn:
+    socket: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationEulerOffset: {x: 0, y: 0, z: 0}
+  holstered:
+    socket: 4
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationEulerOffset: {x: 0, y: 0, z: 0}

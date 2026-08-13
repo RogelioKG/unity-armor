@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cb33a8bb0fb8d409278c67dc410741, type: 3}
+  m_Name: Mainhand_Sword
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  displayName: Mainhand Sword
+  slot: 0
+  mesh: {fileID: 6282975544366222924, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
+  materials:
+  - {fileID: -1169036200065093545, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
+  - {fileID: -4942486412611992682, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
+  - {fileID: 6809642410825070797, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
+  - {fileID: -6315416559770349970, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
+  - {fileID: 8097329357525452317, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
+  drawn:
+    socket: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationEulerOffset: {x: 0, y: 0, z: 0}
+  holstered:
+    socket: 4
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationEulerOffset: {x: 0, y: 0, z: 0}

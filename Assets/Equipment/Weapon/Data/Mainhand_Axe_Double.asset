@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cb33a8bb0fb8d409278c67dc410741, type: 3}
+  m_Name: Mainhand_Axe_Double
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  displayName: Mainhand Axe Double
+  slot: 0
+  mesh: {fileID: 8294026459578021466, guid: 206caa581ea3f9043b963d4ab4c13a91, type: 3}
+  materials:
+  - {fileID: 5653053145819516872, guid: 206caa581ea3f9043b963d4ab4c13a91, type: 3}
+  - {fileID: 7662690262357861649, guid: 206caa581ea3f9043b963d4ab4c13a91, type: 3}
+  - {fileID: -1190562860047596828, guid: 206caa581ea3f9043b963d4ab4c13a91, type: 3}
+  - {fileID: -8027601932022264327, guid: 206caa581ea3f9043b963d4ab4c13a91, type: 3}
+  drawn:
+    socket: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationEulerOffset: {x: 0, y: 0, z: 0}
+  holstered:
+    socket: 4
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationEulerOffset: {x: 0, y: 0, z: 0}

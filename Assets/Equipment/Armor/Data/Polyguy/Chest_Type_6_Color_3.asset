@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a20f183fb242b704a94b51cbd1670c86, type: 3}
+  m_Name: Chest_Type_6_Color_3
+  m_EditorClassIdentifier: Assembly-CSharp::ArmorData
+  displayName: Chest Type 6 Color 3
+  mesh: {fileID: 1042057225224025060, guid: 032a5b471a36eff4b88658321fa2b11c, type: 3}
+  materials:
+  - {fileID: 2100000, guid: 9845b38987b69224ca6524623f877af8, type: 2}
+  slot: 1
+  armor: 0

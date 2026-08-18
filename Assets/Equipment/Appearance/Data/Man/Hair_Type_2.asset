@@ -15,5 +15,5 @@ MonoBehaviour:
   displayName: Hair Type 2
   mesh: {fileID: -5720284142534184160, guid: 80270c50c311ca74c9cc7be70ef35b9b, type: 3}
   materials:
-  - {fileID: -8742236704463792096, guid: 80270c50c311ca74c9cc7be70ef35b9b, type: 3}
+  - {fileID: 2100000, guid: e6423c47c50c7444f95461937f9a1226, type: 2}
   slot: 0

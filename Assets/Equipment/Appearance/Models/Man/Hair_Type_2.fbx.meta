@@ -3,7 +3,12 @@ guid: 80270c50c311ca74c9cc7be70ef35b9b
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: camo
+    second: {fileID: 2100000, guid: e6423c47c50c7444f95461937f9a1226, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

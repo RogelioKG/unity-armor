@@ -15,6 +15,6 @@ MonoBehaviour:
   displayName: Chest Type 1
   mesh: {fileID: 1080193480362675516, guid: a4f25f05da6766047a118a94150a34c4, type: 3}
   materials:
-  - {fileID: -6478536213147159724, guid: a4f25f05da6766047a118a94150a34c4, type: 3}
+  - {fileID: 7409454466802266342, guid: a4f25f05da6766047a118a94150a34c4, type: 3}
   slot: 1
   armor: 0

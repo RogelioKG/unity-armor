@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6623622139139178752
+--- !u!1001 &8233808006558265348
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,113 +8,181 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5134816872844314733, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5037621766562820899, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_Name
       value: PF_Man_Debug
       objectReference: {fileID: 0}
-    - target: {fileID: 5479007252081873623, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5666349541837826457, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5479007252081873623, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5666349541837826457, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5479007252081873623, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5666349541837826457, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5479007252081873623, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5666349541837826457, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5479007252081873623, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5666349541837826457, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5479007252081873623, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5666349541837826457, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5479007252081873623, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5666349541837826457, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5479007252081873623, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5666349541837826457, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5479007252081873623, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5666349541837826457, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5479007252081873623, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - target: {fileID: 5666349541837826457, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5670954734508979249, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
-      propertyPath: rig
-      value: 
-      objectReference: {fileID: 4223702239396975324}
-    - target: {fileID: 7022888573918155740, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
-      propertyPath: baseBody
-      value: 
-      objectReference: {fileID: 8263363529571494999}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5134816872844314733, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 5037621766562820899, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5302540952073955716}
-  m_SourcePrefab: {fileID: 100100000, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
---- !u!1 &2065284710432278893 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5134816872844314733, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
-  m_PrefabInstance: {fileID: 6623622139139178752}
+      addedObject: {fileID: 8648454278147792629}
+    - targetCorrespondingSourceObject: {fileID: 5037621766562820899, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8001901491883675483}
+    - targetCorrespondingSourceObject: {fileID: 5037621766562820899, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3172190272059509737}
+  m_SourcePrefab: {fileID: 100100000, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
+--- !u!114 &2194843541982431861 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7796287666403703409, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
+  m_PrefabInstance: {fileID: 8233808006558265348}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5302540952073955716
+  m_GameObject: {fileID: 4011975609695372071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee2a2e9421fdea546b17f328e07b48b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponState
+--- !u!1 &4011975609695372071 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5037621766562820899, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
+  m_PrefabInstance: {fileID: 8233808006558265348}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8648454278147792629
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065284710432278893}
+  m_GameObject: {fileID: 4011975609695372071}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8c120f876a8e814898edbf2914c2508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArmorTester
-  state: {fileID: 7452786652894052885}
+  state: {fileID: 9044026982603798348}
   sets:
   - setName: 
     pieces:
     - {fileID: 11400000, guid: 0070bfa28d5dffa46a452e10189959f9, type: 2}
     - {fileID: 11400000, guid: 61a116ec5ba11a047b9fba8475287c7a, type: 2}
---- !u!114 &4223702239396975324 stripped
+--- !u!114 &8001901491883675483
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7022888573918155740, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
-  m_PrefabInstance: {fileID: 6623622139139178752}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065284710432278893}
+  m_GameObject: {fileID: 4011975609695372071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b18715bc189a0204f9a91993cf2a9604, type: 3}
+  m_Script: {fileID: 11500000, guid: 4953756306393244185075f074ae9b80, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterRig
---- !u!114 &7452786652894052885 stripped
+  m_EditorClassIdentifier: Assembly-CSharp::AppearanceTester
+  state: {fileID: 7492783550029423052}
+  sets:
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: de9d94b7d85e0e64795493f59d9d1a2e, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 94bf5273fb95ba4499c1f8ea9b743d8c, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: d2cf252389192674fb78a3397290b730, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 0259fa3311047c347a24bc46d2fb72ed, type: 2}
+--- !u!114 &3172190272059509737
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4361253298243109653, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
-  m_PrefabInstance: {fileID: 6623622139139178752}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2065284710432278893}
+  m_GameObject: {fileID: 4011975609695372071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b2989c7d36b3a40ab0d52d50f56c4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponTester
+  state: {fileID: 2194843541982431861}
+  sets:
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: c35f7082f21a70943bce38bb9d437477, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 326124fa5b9df5842824e9ee670e7cd1, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 1509133b8f858ea48b871513dc384fd4, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 106b1f91d4de57543977d669afd17cb2, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 07d8461c6ee32c246a2898f5b3f52c76, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 00fb61dcd70dc414a928573a10e2d5a6, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 49904608525d6114faff8d8218fb128c, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: edb4bd0a7e124864989df18788123366, type: 2}
+--- !u!114 &7492783550029423052 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1567228692961743304, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
+  m_PrefabInstance: {fileID: 8233808006558265348}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4011975609695372071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e6a188c8a82ce04587b75a9c48a9eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AppearanceState
+--- !u!114 &9044026982603798348 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1136748094277912392, guid: cdc9287bc2c33f34bb73933356ccea78, type: 3}
+  m_PrefabInstance: {fileID: 8233808006558265348}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4011975609695372071}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d1292c09bf6fd6499d198272b48e163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArmorState
---- !u!137 &8263363529571494999 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2974214569952226647, guid: 79877ec53a2f1c24ca2636b31c80afcb, type: 3}
-  m_PrefabInstance: {fileID: 6623622139139178752}
-  m_PrefabAsset: {fileID: 0}

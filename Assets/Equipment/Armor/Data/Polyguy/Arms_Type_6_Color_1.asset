@@ -17,4 +17,4 @@ MonoBehaviour:
   materials:
   - {fileID: 2100000, guid: 9845b38987b69224ca6524623f877af8, type: 2}
   slot: 2
-  armor: 0
+  armor: 11

@@ -25,6 +25,29 @@ public class WeaponData : EquipmentData<WeaponSlot>
     public SocketPlacement drawn;
     public SocketPlacement holstered;
 
+    [Header("Combat")]
+    public float damage = 20f;
+    public DamageType damageType = DamageType.Slash;
+    public float staminaCost = 10f;
+    public float knockback = 2f;
+
+    [Header("Swing Timing")]
+    [Tooltip("Normalized time in the attack clip where the hitbox opens.")]
+    [Range(0f, 1f)] public float hitboxOpen = 0.25f;
+    [Tooltip("Normalized time where the hitbox closes. Must be greater than hitboxOpen.")]
+    [Range(0f, 1f)] public float hitboxClose = 0.55f;
+    [Tooltip("Animator speed multiplier for this weapon's swing.")]
+    public float attackSpeed = 1f;
+
+    [Header("Hitbox")]
+    [Tooltip("Sweep volume in character-local space, not the weapon mesh's own bounds.")]
+    public Vector3 hitboxCenter = new(0f, 0f, 0.5f);
+    public Vector3 hitboxSize = new(0.3f, 0.3f, 1.0f);
+
+    [Header("Defense")]
+    [Tooltip("Reserved for blocking with this in the off hand. Zero for non-shields.")]
+    public float blockPower = 0f;
+
     public SocketPlacement PlacementFor(WeaponHoldState hold)
         => hold == WeaponHoldState.Holstered ? holstered : drawn;
 }

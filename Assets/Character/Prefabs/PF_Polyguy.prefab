@@ -522,13 +522,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2193047876686944296}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00059, y: 0.00091, z: 0.00016}
+  m_LocalRotation: {x: 0.036693037, y: -0.032059513, z: 0.7521587, w: 0.6571782}
+  m_LocalPosition: {x: -0.00061483344, y: 0.0010995343, z: 0.00015959608}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6397847987976472905}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5.535, y: 0.752, z: 97.747}
 --- !u!114 &6060503666129221995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1013,13 +1013,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4644070938041827822}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.06641339, y: 0.0059245606, z: 0.9938281, w: 0.08865667}
-  m_LocalPosition: {x: 0.0006674382, y: 0.0010930487, z: -0.0002596924}
+  m_LocalRotation: {x: -0.040630095, y: 0.05286826, z: 0.73843426, w: -0.67102087}
+  m_LocalPosition: {x: 0.0006711438, y: 0.0010882326, z: -0.00026018856}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5852375820097454830}
-  m_LocalEulerAnglesHint: {x: -1.35, y: -7.527, z: 169.893}
+  m_LocalEulerAnglesHint: {x: -1.35, y: -7.527, z: 264.612}
 --- !u!114 &8562457384709444830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1775,6 +1775,12 @@ GameObject:
   - component: {fileID: 5941791514498184075}
   - component: {fileID: 4284696567204668680}
   - component: {fileID: 1544461922035908710}
+  - component: {fileID: 1752936630670696813}
+  - component: {fileID: 281789046153577047}
+  - component: {fileID: 5336953574984827005}
+  - component: {fileID: 2503830095169343874}
+  - component: {fileID: 817930477040004275}
+  - component: {fileID: 1949549901893335710}
   m_Layer: 8
   m_Name: PF_Polyguy
   m_TagString: Player
@@ -1866,7 +1872,9 @@ MonoBehaviour:
   gravity: -20
   coyoteTime: 0.15
   terminalVelocity: -30
-  cameraTransform: {fileID: 0}
+  sprintStaminaPerSecond: 12
+  jumpStaminaCost: 15
+  sprintResumeStamina: 10
   animDamping: 0.1
   walkRing: 1
   sprintRing: 2
@@ -1958,6 +1966,111 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AppearanceRenderer
   rig: {fileID: 2634959273557184148}
+--- !u!114 &1752936630670696813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303330017946600186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5bdc85beba126541bc7d9101a2d5ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stamina
+  maxStamina: 100
+  overdraftLimit: 0.5
+  regenPerSecond: 20
+  regenDelay: 1
+--- !u!114 &281789046153577047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303330017946600186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55784bab6b15202449302b24e49c1ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeHitbox
+--- !u!114 &5336953574984827005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303330017946600186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd21e9dfe9f9e4429350feaa7542e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  attackMoveMultiplier: 0.1
+  actionLayer: Action
+  attackState: AttackSlash
+  attackBlend: 0.25
+  defaultAttackClip: {fileID: 0}
+--- !u!114 &2503830095169343874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303330017946600186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb3d2424ecfb174d9322b1c1bebc2b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 100
+  startingHealth: 0
+  invulnerable: 0
+--- !u!114 &817930477040004275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303330017946600186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d707bbdca468541a316241057d66f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBlock
+  blockStaminaPerDamage: 0.5
+  blockAngle: 100
+  blockMoveMultiplier: 0.1
+  parryWindow: 0.2
+  guardBreakStun: 0.8
+  guardBreakMoveMultiplier: 0
+  actionLayer: Action
+  blockState: Block
+  emptyState: Empty
+  blend: 0.15
+--- !u!114 &1949549901893335710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303330017946600186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1769bd81bb4e4b0c98e15589413fa71c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDodge
+  dodgeStaminaCost: 25
+  dodgeDefaultSpeed: 2
+  dodgeDuration: 0.8
+  invulnerableStart: 0.1
+  invulnerableEnd: 0.45
+  dodgeState: Dodge
+  locomotionState: Locomotion
+  blend: 0.15
 --- !u!1 &7621057361669619625
 GameObject:
   m_ObjectHideFlags: 0

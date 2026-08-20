@@ -5,12 +5,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Turns the Attack input into a swing: plays the upper body attack state, then opens and
+/// Turns the Attack input into a swing: plays the action layer attack state, then opens and
 /// closes the MeleeHitbox at the normalized times the equipped weapon asks for. One state
 /// serves every weapon — the clip inside it is retargeted on equip.
 /// </summary>
-[RequireComponent(typeof(WeaponState), typeof(Animator), typeof(MeleeHitbox))]
-public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
+[RequireComponent(typeof(Stamina), typeof(WeaponState), typeof(MeleeHitbox))]
+[RequireComponent(typeof(Animator), typeof(CharacterRig))]
+public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock, IActionLock
 {
     [Header("Targets")]
     [Tooltip("What a swing can hit. Enemy layer by default.")]
@@ -19,24 +20,28 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
     [Header("Movement")]
     [Tooltip("Movement speed while swinging. Low values make attacks commit.")]
     [Range(0f, 1f)]
-    [SerializeField] private float attackMoveMultiplier = 0f;
+    [SerializeField] private float attackMoveMultiplier = 0.1f;
 
     [Header("Animator")]
-    [SerializeField] private string upperBodyLayer = "UpperBody";
-    [SerializeField] private string attackState = "Attack_01";
+    [Tooltip("Layer the swing plays on. Must match PlayerBlock's.")]
+    [SerializeField] private string actionLayer = "Action";
+    [SerializeField] private string attackState = "AttackSlash";
     [Tooltip("Seconds spent blending into the swing. Short values make attacks snappy.")]
     [SerializeField] private float attackBlend = 0.25f;
     [Tooltip("The clip the attack state already plays. Weapons carrying their own swing replace this one; leave it empty to keep every weapon on the Animator's clip.")]
     [SerializeField] private AnimationClip defaultAttackClip;
 
+    private readonly List<IActionLock> actionLocks = new();
+
     private Animator animator;
     private WeaponState weaponState;
     private MeleeHitbox hitbox;
     private CharacterRig rig;
+    private Stamina stamina;
     private InputAction attackAction;
     private AnimatorOverrideController overrides;
     private Coroutine swing;
-    private int upperBodyIndex;
+    private int actionLayerIndex;
     private int attackStateHash;
 
     private static readonly int AttackSpeedHash = Animator.StringToHash("AttackSpeed");
@@ -52,15 +57,13 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
 
     bool IMovementOverride.IsActive => IsAttacking;
 
-    // False: a swing slows the character rather than steering it.
-    bool IMovementOverride.TryGetMovement(out Vector3 velocity, out float speedMultiplier)
-    {
-        velocity = Vector3.zero;
-        speedMultiplier = attackMoveMultiplier;
-        return false;
-    }
+    // Scale, not drive: a swing slows the character rather than steering it.
+    MovementIntent IMovementOverride.GetMovement() => MovementIntent.Scale(attackMoveMultiplier);
 
     bool IEquipLock.BlocksEquip => IsAttacking;
+
+    // Recovery included: a dodge out of a swing would need the swing to be interruptible.
+    bool IActionLock.BlocksActions => IsAttacking;
 
     private void Awake()
     {
@@ -68,17 +71,20 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
         weaponState = GetComponent<WeaponState>();
         hitbox = GetComponent<MeleeHitbox>();
         rig = GetComponent<CharacterRig>();
+        stamina = GetComponent<Stamina>();
+        GetComponents(actionLocks);
 
-        upperBodyIndex = animator.GetLayerIndex(upperBodyLayer);
-        attackStateHash = Animator.StringToHash(attackState);
-        attackAction = InputSystem.actions.FindAction("Attack");
+        var actions = InputSystem.actions;
+        attackAction = actions.FindAction("Attack");
 
-        // CrossFade to a missing state fails silently and the swing would hang waiting for it.
-        bool hasState = upperBodyIndex >= 0 && animator.HasState(upperBodyIndex, attackStateHash);
+        actionLayerIndex = animator.GetLayerIndex(actionLayer);
+        attackStateHash = animator.ResolveState(actionLayerIndex, attackState);
 
-        if (!hasState || attackAction == null || rig == null)
+        // CrossFade to a missing state fails silently and the swing would hang waiting for it,
+        // so a zero hash disables attacks outright — where a missing pose only costs PlayerBlock the pose.
+        if (attackStateHash == 0 || attackAction == null)
         {
-            Debug.LogError($"{name}: needs a '{upperBodyLayer}' Animator layer holding '{attackState}', an Attack action and a CharacterRig; disabling attacks.", this);
+            Debug.LogError($"{name}: needs a '{actionLayer}' Animator layer holding '{attackState}' and an Attack action; disabling attacks.", this);
             enabled = false;
             return;
         }
@@ -92,22 +98,20 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
     {
         if (defaultAttackClip == null) return;
 
+        // Overrides are keyed by the clip a state holds, not by the state's name.
+        if (!Array.Exists(animator.runtimeAnimatorController.animationClips, clip => clip == defaultAttackClip))
+        {
+            Debug.LogError($"{name}: '{defaultAttackClip.name}' is not a clip this Animator plays; per-weapon attack animations are off.", this);
+            return;
+        }
+
         overrides = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = overrides;
-
-        var keys = new List<KeyValuePair<AnimationClip, AnimationClip>>(overrides.overridesCount);
-        overrides.GetOverrides(keys);
-
-        // Overrides are keyed by the clip a state holds, not by the state's name.
-        if (keys.Exists(pair => pair.Key == defaultAttackClip)) return;
-
-        Debug.LogError($"{name}: '{defaultAttackClip.name}' is not a clip this Animator plays; per-weapon attack animations are off.", this);
-        overrides = null;
     }
 
     private void OnEnable()
     {
-        attackAction?.Enable();
+        attackAction.Enable();
         weaponState.Changed += OnWeaponChanged;
 
         ApplyAttackClip(weaponState.Get(WeaponSlot.MainHand));   // Catch up on what is already equipped.
@@ -115,7 +119,7 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
 
     private void OnDisable()
     {
-        attackAction?.Disable();
+        attackAction.Disable();
         weaponState.Changed -= OnWeaponChanged;
 
         // Disabling a component does not stop its coroutines; only deactivating the GameObject does.
@@ -136,7 +140,6 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
 
         var clip = weapon != null && weapon.attackClip != null ? weapon.attackClip : defaultAttackClip;
 
-        // Retargeting rebinds the controller, so only pay for it when the clip actually changes.
         if (overrides[defaultAttackClip] != clip) overrides[defaultAttackClip] = clip;
     }
 
@@ -149,15 +152,19 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
     {
         if (IsAttacking) return;   // No combo buffering this stage.
 
+        // Mid-dodge or staggered: the body is spoken for.
+        if (ActionLock.AnyBlocking(actionLocks, this)) return;
+
         var weapon = weaponState.Get(WeaponSlot.MainHand);
         if (weapon == null) return;
         if (weaponState.GetHold(WeaponSlot.MainHand) == WeaponHoldState.Holstered) return;
 
-        // Stage 3 gates here: `if (!stamina.TryConsume(weapon.staminaCost)) return;`
+        // Last of the gates: a swing refused above must not have paid for itself.
+        if (!stamina.TryCommit(weapon.staminaCost)) return;
 
         // Before the CrossFade, or the opening frames play at the previous weapon's speed.
         animator.SetFloat(AttackSpeedHash, Mathf.Max(weapon.attackSpeed, 0.01f));
-        animator.CrossFadeInFixedTime(attackStateHash, attackBlend, upperBodyIndex);
+        animator.CrossFadeInFixedTime(attackStateHash, attackBlend, actionLayerIndex);
 
         IsAttacking = true;
         swing = StartCoroutine(Swing(weapon));
@@ -195,7 +202,6 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
 
     private void OpenHitbox(WeaponData weapon)
     {
-        // Point and direction are recomputed per target by the sweep.
         var template = new DamageInfo(weapon.damage, weapon.damageType, transform.position, transform.forward, gameObject);
         hitbox.Begin(Socket(weapon), template, weapon.hitboxCenter, weapon.hitboxSize, targetLayers);
     }
@@ -208,11 +214,11 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
     /// read the previous swing blending out and report a progress of 1 straight away.</summary>
     private bool TryGetSwingTime(out float progress)
     {
-        var info = animator.GetCurrentAnimatorStateInfo(upperBodyIndex);
+        var info = animator.GetCurrentAnimatorStateInfo(actionLayerIndex);
 
-        if (animator.IsInTransition(upperBodyIndex))
+        if (animator.IsInTransition(actionLayerIndex))
         {
-            var next = animator.GetNextAnimatorStateInfo(upperBodyIndex);
+            var next = animator.GetNextAnimatorStateInfo(actionLayerIndex);
             if (next.shortNameHash == attackStateHash) info = next;
         }
 
@@ -240,8 +246,7 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock
         var origin = Socket(weapon);
 
         Gizmos.color = new Color(1f, 0.9f, 0.2f, 0.5f);
-        Gizmos.matrix = Matrix4x4.TRS(
-            origin.position + origin.rotation * weapon.hitboxCenter, origin.rotation, Vector3.one);
+        Gizmos.matrix = Matrix4x4.TRS(origin.position + origin.rotation * weapon.hitboxCenter, origin.rotation, Vector3.one);
         Gizmos.DrawWireCube(Vector3.zero, weapon.hitboxSize);
     }
 #endif

@@ -10,10 +10,10 @@ using UnityEngine.InputSystem;
 /// Requires Animator parameters MoveX / MoveZ (Float) and Jump (Trigger) driving a
 /// 2D Freeform Directional Blend Tree.
 /// </summary>
-[RequireComponent(typeof(CharacterController), typeof(Animator))]
+[RequireComponent(typeof(CharacterController), typeof(Animator), typeof(Stamina))]
 public class PlayerController : MonoBehaviour
 {
-    private const float Never = -999f;
+    private const float Never = float.NegativeInfinity;
 
     [Header("Movement")]
     [SerializeField] private float walkSpeed = 2f;
@@ -32,8 +32,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.15f;
     [SerializeField] private float terminalVelocity = -30f;
 
-    [Header("Camera")]
-    [SerializeField] private Transform cameraTransform;
+    [Header("Stamina")]
+    [Tooltip("Drained for as long as the character is actually sprinting somewhere.")]
+    [SerializeField] private float sprintStaminaPerSecond = 12f;
+    [Tooltip("Paid on takeoff, into overdraft if the pool is short. Only an empty pool refuses.")]
+    [SerializeField] private float jumpStaminaCost = 15f;
+    [Tooltip("Stamina the pool has to climb back to before an interrupted sprint re-engages.")]
+    [SerializeField] private float sprintResumeStamina = 10f;
 
     [Header("Animation")]
     [SerializeField] private float animDamping = 0.1f;
@@ -44,6 +49,8 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator;
     private CharacterController controller;
+    private Stamina stamina;
+    private Transform cameraTransform;
     private InputAction moveAction, jumpAction, sprintAction;
 
     // Collected once. This controller knows nothing about attacking, blocking or dodging —
@@ -57,15 +64,23 @@ public class PlayerController : MonoBehaviour
     private float verticalVelocity;
     private float lastGroundedTime = Never;
     private bool isSprinting;
+    private bool movementDriven;         // An override is steering, not just slowing us down.
 
     private static readonly int MoveXHash = Animator.StringToHash("MoveX");
     private static readonly int MoveZHash = Animator.StringToHash("MoveZ");
     private static readonly int JumpHash = Animator.StringToHash("Jump");
 
+    public Vector3 SteerDirection => steerDirection;
+
+    /// <summary>Zero when the character is not asking to move, so callers that need a speed from a
+    /// standstill have to supply their own.</summary>
+    public float CurrentSpeed => currentSpeed;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+        stamina = GetComponent<Stamina>();
         GetComponents(movementOverrides);
 
         var actions = InputSystem.actions;
@@ -73,7 +88,7 @@ public class PlayerController : MonoBehaviour
         jumpAction = actions.FindAction("Jump");
         sprintAction = actions.FindAction("Sprint");
 
-        if (cameraTransform == null && Camera.main != null)
+        if (Camera.main != null)
             cameraTransform = Camera.main.transform;
 
         if (cameraTransform == null || moveAction == null || jumpAction == null)
@@ -101,6 +116,7 @@ public class PlayerController : MonoBehaviour
     {
         ReadInput();
         ResolveHorizontalVelocity();
+        DrainSprintStamina();
         UpdateFacing();
         HandleJumpAndGravity();
         ApplyMovement();
@@ -126,45 +142,54 @@ public class PlayerController : MonoBehaviour
         bool moving = input.sqrMagnitude > 0.01f;
         bool sprintHeld = sprintAction != null && sprintAction.IsPressed();
 
-        isSprinting = moving && sprintHeld;
+        // Sprint is the one action gated on more than an empty pool: drain floors at zero instead
+        // of overdrawing, so without a resume floor it would re-engage on the first frame of regen
+        // and stutter. Costed actions need no such floor, since overdraft locks them out outright.
+        isSprinting = moving && sprintHeld && (isSprinting ? !stamina.IsExhausted : stamina.Current >= sprintResumeStamina);
         currentSpeed = moving ? (isSprinting ? sprintSpeed : walkSpeed) : 0f;
     }
 
-    /// <summary>The one place horizontal motion is decided. Lowest active Priority wins
-    /// outright: overrides never stack their multipliers.</summary>
+    /// <summary>Billed for ground actually covered, so a sprint held through a swing that pins
+    /// the character in place costs nothing.</summary>
+    private void DrainSprintStamina()
+    {
+        if (isSprinting && horizontalVelocity.sqrMagnitude > 0.01f)
+            stamina.Drain(sprintStaminaPerSecond);
+    }
+
+    /// <summary>The one place horizontal motion is decided. A single winner drives it:
+    /// overrides never stack their multipliers.</summary>
     private void ResolveHorizontalVelocity()
     {
-        IMovementOverride winner = null;
-        foreach (var candidate in movementOverrides)
-        {
-            if (candidate.IsActive && (winner == null || candidate.Priority < winner.Priority))
-                winner = candidate;
-        }
-
+        IMovementOverride winner = MovementOverride.SelectActive(movementOverrides);
         if (winner == null)
         {
+            movementDriven = false;
             horizontalVelocity = steerDirection * currentSpeed;
             return;
         }
 
-        horizontalVelocity = winner.TryGetMovement(out Vector3 velocity, out float multiplier)
-            ? velocity
-            : steerDirection * (currentSpeed * multiplier);
+        MovementIntent intent = winner.GetMovement();
+        movementDriven = intent.DrivesVelocity;
+        horizontalVelocity = movementDriven
+            ? intent.Velocity
+            : steerDirection * (currentSpeed * intent.SpeedMultiplier);
     }
 
     /// <summary>steerDirection derives from the camera rather than the transform, so the
     /// threshold test has no feedback loop and cannot oscillate mid-turn.</summary>
     private void UpdateFacing()
     {
-        if (currentSpeed <= 0f) return;
+        // An override that steers the body owns its facing too, or a sideways dodge would swing
+        // back toward the camera halfway through.
+        if (movementDriven || currentSpeed <= 0f) return;
 
         Vector3 facing = Vector3.Angle(cameraForward, steerDirection) > turnThreshold
             ? steerDirection
             : cameraForward;
 
         float t = 1f - Mathf.Exp(-rotateSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation, Quaternion.LookRotation(facing), t);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(facing), t);
     }
 
     private void HandleJumpAndGravity()
@@ -181,7 +206,10 @@ public class PlayerController : MonoBehaviour
                 verticalVelocity + gravity * Time.deltaTime, terminalVelocity);
         }
 
-        if (jumpAction.WasPressedThisFrame() && Time.time - lastGroundedTime <= coyoteTime)
+        // TryCommit last: && short circuits, so stamina is only spent on a jump that happens.
+        if (jumpAction.WasPressedThisFrame()
+            && Time.time - lastGroundedTime <= coyoteTime
+            && stamina.TryCommit(jumpStaminaCost))
         {
             // Clamp gravity negative so a mis-set positive value can't produce NaN.
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * Mathf.Min(gravity, -0.01f));

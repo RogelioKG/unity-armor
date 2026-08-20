@@ -65,6 +65,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1818295410775815415}
+    - targetCorrespondingSourceObject: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4292142612705879251}
+    - targetCorrespondingSourceObject: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7640885326215446784}
   m_SourcePrefab: {fileID: 100100000, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
 --- !u!114 &509113358387194779 stripped
 MonoBehaviour:
@@ -234,3 +240,36 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 513f7f02441afdb40bf1f3c4d3aba13c, type: 2}
     - {fileID: 11400000, guid: d20c1b6e51b46a8459599d7d6dc671f8, type: 2}
     - {fileID: 11400000, guid: 6593264ab2bf82e489d4addfafc63ebd, type: 2}
+--- !u!114 &4292142612705879251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465932085967033267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55784bab6b15202449302b24e49c1ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeHitbox
+--- !u!114 &7640885326215446784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465932085967033267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd21e9dfe9f9e4429350feaa7542e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  attackMoveMultiplier: 0
+  upperBodyLayer: UpperBody
+  attackState: Attack_01
+  attackBlend: 0.25
+  defaultAttackClip: {fileID: -203655887218126122, guid: a266bbdb36e46aa419a0955185ff1c8b,
+    type: 3}

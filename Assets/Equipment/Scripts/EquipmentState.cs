@@ -14,29 +14,58 @@ public abstract class EquipmentState<TData, TSlot> : MonoBehaviour
 
     readonly Dictionary<TSlot, TData> worn = new();
 
+    readonly List<IEquipLock> locks = new();
+
     /// <summary>Raised once the slot has already changed. A null item means it was cleared.</summary>
     public event Action<TSlot, TData> Changed;
 
     public IReadOnlyDictionary<TSlot, TData> Worn => worn;
 
+    /// <summary>True while something on this character is mid-action and gear must not change.
+    /// UI reads it to grey a slot out before the player presses anything.</summary>
+    public bool IsLocked
+    {
+        get
+        {
+            // Rebuilt per query, not cached: equipping is a cold path, and a lock added after
+            // Awake still counts.
+            GetComponents(locks);
+
+            foreach (var candidate in locks)
+                if (candidate.BlocksEquip) return true;
+
+            return false;
+        }
+    }
+
     public TData Get(TSlot slot) => worn.TryGetValue(slot, out var item) ? item : null;
 
-    public void Equip(TData item)
+    /// <summary>Returns whether the slot now holds `item` — false means a lock refused it.</summary>
+    public bool Equip(TData item)
     {
-        if (item == null) return;
+        if (item == null) return false;
 
-        if (ReferenceEquals(Get(item.slot), item)) return;   // Already on, no need to respawn it.
+        if (ReferenceEquals(Get(item.slot), item)) return true;   // Already on, no need to respawn it.
+
+        if (IsLocked) return false;
 
         worn[item.slot] = item;
         Changed?.Invoke(item.slot, item);
+
+        return true;
     }
 
-    public void Unequip(TSlot slot)
+    /// <summary>Returns whether the slot ended up empty — false means a lock refused it.</summary>
+    public bool Unequip(TSlot slot)
     {
-        if (!worn.Remove(slot)) return;   // Stay quiet when the slot was empty.
+        if (IsLocked) return false;
+
+        if (!worn.Remove(slot)) return true;   // Stay quiet when the slot was empty.
 
         OnCleared(slot);
         Changed?.Invoke(slot, null);
+
+        return true;
     }
 
     public void Clear()

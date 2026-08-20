@@ -19,6 +19,8 @@ public class WeaponState : EquipmentState<WeaponData, WeaponSlot>
     {
         if (Get(slot) == null || GetHold(slot) == hold) return;
 
+        if (IsLocked) return;   // Sheathing mid-swing would strand the swing on an empty hand.
+
         holds[slot] = hold;
         HoldChanged?.Invoke(slot, hold);
     }

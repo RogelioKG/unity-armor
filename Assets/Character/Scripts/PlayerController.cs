@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,8 +46,13 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private InputAction moveAction, jumpAction, sprintAction;
 
-    private Vector3 moveDirection;   // World space
-    private Vector3 cameraForward;   // Camera's horizontal facing
+    // Collected once. This controller knows nothing about attacking, blocking or dodging —
+    // they arrive as IMovementOverride.
+    private readonly List<IMovementOverride> movementOverrides = new();
+
+    private Vector3 steerDirection;      // World space. What the player is asking for.
+    private Vector3 cameraForward;       // Camera's horizontal facing
+    private Vector3 horizontalVelocity;  // What Move actually gets, m/s. Resolved once per frame.
     private float currentSpeed;
     private float verticalVelocity;
     private float lastGroundedTime = Never;
@@ -60,6 +66,7 @@ public class PlayerController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+        GetComponents(movementOverrides);
 
         var actions = InputSystem.actions;
         moveAction = actions.FindAction("Move");
@@ -93,6 +100,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         ReadInput();
+        ResolveHorizontalVelocity();
         UpdateFacing();
         HandleJumpAndGravity();
         ApplyMovement();
@@ -111,9 +119,9 @@ public class PlayerController : MonoBehaviour
         cameraForward.Normalize();
         cameraRight.Normalize();
 
-        moveDirection = cameraForward * input.y + cameraRight * input.x;
-        if (moveDirection.sqrMagnitude > 1f)
-            moveDirection.Normalize();
+        steerDirection = cameraForward * input.y + cameraRight * input.x;
+        if (steerDirection.sqrMagnitude > 1f)
+            steerDirection.Normalize();
 
         bool moving = input.sqrMagnitude > 0.01f;
         bool sprintHeld = sprintAction != null && sprintAction.IsPressed();
@@ -122,14 +130,36 @@ public class PlayerController : MonoBehaviour
         currentSpeed = moving ? (isSprinting ? sprintSpeed : walkSpeed) : 0f;
     }
 
-    /// <summary>moveDirection derives from the camera rather than the transform, so the
+    /// <summary>The one place horizontal motion is decided. Lowest active Priority wins
+    /// outright: overrides never stack their multipliers.</summary>
+    private void ResolveHorizontalVelocity()
+    {
+        IMovementOverride winner = null;
+        foreach (var candidate in movementOverrides)
+        {
+            if (candidate.IsActive && (winner == null || candidate.Priority < winner.Priority))
+                winner = candidate;
+        }
+
+        if (winner == null)
+        {
+            horizontalVelocity = steerDirection * currentSpeed;
+            return;
+        }
+
+        horizontalVelocity = winner.TryGetMovement(out Vector3 velocity, out float multiplier)
+            ? velocity
+            : steerDirection * (currentSpeed * multiplier);
+    }
+
+    /// <summary>steerDirection derives from the camera rather than the transform, so the
     /// threshold test has no feedback loop and cannot oscillate mid-turn.</summary>
     private void UpdateFacing()
     {
         if (currentSpeed <= 0f) return;
 
-        Vector3 facing = Vector3.Angle(cameraForward, moveDirection) > turnThreshold
-            ? moveDirection
+        Vector3 facing = Vector3.Angle(cameraForward, steerDirection) > turnThreshold
+            ? steerDirection
             : cameraForward;
 
         float t = 1f - Mathf.Exp(-rotateSpeed * Time.deltaTime);
@@ -164,15 +194,16 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>Call Move once per frame. Two calls make the horizontal one report isGrounded as false.</summary>
     private void ApplyMovement()
-    {
-        Vector3 velocity = moveDirection * currentSpeed + Vector3.up * verticalVelocity;
-        controller.Move(velocity * Time.deltaTime);
-    }
+        => controller.Move((horizontalVelocity + Vector3.up * verticalVelocity) * Time.deltaTime);
 
-    /// <summary>Convert to local space so the Blend Tree knows whether to strafe or run forward.</summary>
+    /// <summary>Convert to local space so the Blend Tree knows whether to strafe or run forward.
+    /// Reads the velocity actually applied, so an override that steers the body shows up here
+    /// too instead of the Blend Tree replaying raw input.</summary>
     private void UpdateAnimator()
     {
-        Vector3 local = transform.InverseTransformDirection(moveDirection);
+        // Ring thresholds are expressed per walk / sprint speed, so normalize by that speed.
+        float reference = Mathf.Max(isSprinting ? sprintSpeed : walkSpeed, 0.01f);
+        Vector3 local = transform.InverseTransformDirection(horizontalVelocity) / reference;
         float ring = isSprinting ? sprintRing : walkRing;
 
         animator.SetFloat(MoveXHash, local.x * ring, animDamping, Time.deltaTime);

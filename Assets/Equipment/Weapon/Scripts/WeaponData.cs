@@ -32,6 +32,8 @@ public class WeaponData : EquipmentData<WeaponSlot>
     public float knockback = 2f;
 
     [Header("Swing Timing")]
+    [Tooltip("Swing animation for this weapon. Empty keeps the Animator's own attack clip.")]
+    public AnimationClip attackClip;
     [Tooltip("Normalized time in the attack clip where the hitbox opens.")]
     [Range(0f, 1f)] public float hitboxOpen = 0.25f;
     [Tooltip("Normalized time where the hitbox closes. Must be greater than hitboxOpen.")]
@@ -40,9 +42,9 @@ public class WeaponData : EquipmentData<WeaponSlot>
     public float attackSpeed = 1f;
 
     [Header("Hitbox")]
-    [Tooltip("Sweep volume in character-local space, not the weapon mesh's own bounds.")]
+    [Tooltip("Swing volume in the drawn socket's space: it rides the hand, so shape it around the blade.")]
     public Vector3 hitboxCenter = new(0f, 0f, 0.5f);
-    public Vector3 hitboxSize = new(0.3f, 0.3f, 1.0f);
+    public Vector3 hitboxSize = new(0.3f, 0.3f, 1.2f);
 
     [Header("Defense")]
     [Tooltip("Reserved for blocking with this in the off hand. Zero for non-shields.")]

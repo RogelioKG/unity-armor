@@ -232,22 +232,4 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock, IActio
         IsAttacking = false;
         swing = null;
     }
-
-#if UNITY_EDITOR
-    // Where the next swing starts: the red gizmo only lasts the few frames the window is open.
-    private void OnDrawGizmos()
-    {
-        if (!Application.isPlaying || weaponState == null || IsAttacking) return;
-
-        var weapon = weaponState.Get(WeaponSlot.MainHand);
-        if (weapon == null || weaponState.GetHold(WeaponSlot.MainHand) == WeaponHoldState.Holstered) return;
-
-        // Rotation-only offset, matching MeleeHitbox: socket transforms carry the rig's scale.
-        var origin = Socket(weapon);
-
-        Gizmos.color = new Color(1f, 0.9f, 0.2f, 0.5f);
-        Gizmos.matrix = Matrix4x4.TRS(origin.position + origin.rotation * weapon.hitboxCenter, origin.rotation, Vector3.one);
-        Gizmos.DrawWireCube(Vector3.zero, weapon.hitboxSize);
-    }
-#endif
 }

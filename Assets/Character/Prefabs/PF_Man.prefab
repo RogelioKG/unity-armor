@@ -109,7 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSocket
   id: 4
-  gizmoSize: 0.05
 --- !u!1 &621733498447586358
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +186,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSocket
   id: 3
-  gizmoSize: 0.05
 --- !u!1 &1263547482526467372
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +264,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSocket
   id: 0
-  gizmoSize: 0.05
 --- !u!1 &1377095348716094664
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +373,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSocket
   id: 1
-  gizmoSize: 0.05
 --- !u!1 &2402393257672704481
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,7 +901,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSocket
   id: 2
-  gizmoSize: 0.05
 --- !u!1 &4943257357056080982
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,6 +952,7 @@ GameObject:
   - component: {fileID: 2222369565052305059}
   - component: {fileID: 5254938643670741441}
   - component: {fileID: 6838881902252795862}
+  - component: {fileID: 8801926843234750010}
   m_Layer: 8
   m_Name: PF_Man
   m_TagString: Player
@@ -1914,3 +1910,16 @@ Transform:
   - {fileID: 1938519413532517734}
   m_Father: {fileID: 4030976312251706235}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8801926843234750010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037621766562820899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25ee775b98fef41d80e241e0d763e135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axisLength: 0.05

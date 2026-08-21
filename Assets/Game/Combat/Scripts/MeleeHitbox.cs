@@ -123,13 +123,13 @@ public class MeleeHitbox : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private void OnDrawGizmos()
+    /// <summary>Editor-only: the open window's world pose, for MeleeHitboxGizmo.</summary>
+    public bool TryGetWindow(out Vector3 worldCenter, out Quaternion rotation, out Vector3 boxSize)
     {
-        if (!IsActive) return;
-
-        Gizmos.color = Color.red;
-        Gizmos.matrix = Matrix4x4.TRS(WorldCenter(), origin.rotation, Vector3.one);
-        Gizmos.DrawWireCube(Vector3.zero, size);
+        worldCenter = IsActive ? WorldCenter() : default;
+        rotation = IsActive ? origin.rotation : Quaternion.identity;
+        boxSize = size;
+        return IsActive;
     }
 #endif
 }

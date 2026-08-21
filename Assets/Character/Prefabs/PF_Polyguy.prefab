@@ -398,7 +398,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSocket
   id: 3
-  gizmoSize: 0.05
 --- !u!1 &1936831768922118145
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +541,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSocket
   id: 1
-  gizmoSize: 0.05
 --- !u!1 &2512733040950598452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,7 +1031,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSocket
   id: 0
-  gizmoSize: 0.05
 --- !u!1 &5133443678281665209
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,7 +1178,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSocket
   id: 2
-  gizmoSize: 0.05
 --- !u!1 &5391038869955132967
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,7 +1447,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSocket
   id: 4
-  gizmoSize: 0.05
 --- !u!1 &6417595500591396788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1776,9 +1771,9 @@ GameObject:
   - component: {fileID: 4284696567204668680}
   - component: {fileID: 1544461922035908710}
   - component: {fileID: 1752936630670696813}
+  - component: {fileID: 2503830095169343874}
   - component: {fileID: 281789046153577047}
   - component: {fileID: 5336953574984827005}
-  - component: {fileID: 2503830095169343874}
   - component: {fileID: 817930477040004275}
   - component: {fileID: 1949549901893335710}
   m_Layer: 8
@@ -1982,6 +1977,21 @@ MonoBehaviour:
   overdraftLimit: 0.5
   regenPerSecond: 20
   regenDelay: 1
+--- !u!114 &2503830095169343874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303330017946600186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb3d2424ecfb174d9322b1c1bebc2b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 100
+  startingHealth: 0
+  invulnerable: 0
 --- !u!114 &281789046153577047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2014,21 +2024,6 @@ MonoBehaviour:
   attackState: AttackSlash
   attackBlend: 0.25
   defaultAttackClip: {fileID: 0}
---- !u!114 &2503830095169343874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7303330017946600186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bb3d2424ecfb174d9322b1c1bebc2b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 100
-  startingHealth: 0
-  invulnerable: 0
 --- !u!114 &817930477040004275
 MonoBehaviour:
   m_ObjectHideFlags: 0

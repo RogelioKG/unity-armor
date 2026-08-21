@@ -11,23 +11,11 @@ public enum SocketId
     BackMount = 4,
 }
 
-// Put this on an empty child of a bone and position it in the Scene view.
-// CharacterRig collects them at Awake, so there is nothing to wire up.
+// Put this on an empty child of a bone and position it in the Scene view; SocketGizmo on the
+// character root draws its axes. CharacterRig collects them at Awake, so there is nothing to wire up.
 public class CharacterSocket : MonoBehaviour
 {
     [SerializeField] SocketId id;
-    [SerializeField] float gizmoSize = 0.05f;
 
     public SocketId Id => id;
-
-    void OnDrawGizmos()
-    {
-        var t = transform;
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(t.position, t.position + t.right * gizmoSize);
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(t.position, t.position + t.up * gizmoSize);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(t.position, t.position + t.forward * gizmoSize);
-    }
 }

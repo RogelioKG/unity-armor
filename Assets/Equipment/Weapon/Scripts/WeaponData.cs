@@ -52,4 +52,9 @@ public class WeaponData : EquipmentData<WeaponSlot>
 
     public SocketPlacement PlacementFor(WeaponHoldState hold)
         => hold == WeaponHoldState.Holstered ? holstered : drawn;
+
+    void OnValidate()
+    {
+        hitboxClose = Mathf.Max(hitboxClose, hitboxOpen);
+    }
 }

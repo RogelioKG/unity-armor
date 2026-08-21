@@ -174,23 +174,21 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock, IActio
 
     private IEnumerator Swing(WeaponData weapon)
     {
-        yield return null;   // The CrossFade is only registered by the Animator's next update.
+        yield return null;
 
         float open = weapon.hitboxOpen;
-        float close = Mathf.Max(open, weapon.hitboxClose);
+        float close = weapon.hitboxClose;
         bool opened = false;
 
-        // Loop condition doubles as interruption handling: state gone → window closed.
         while (TryGetSwingTime(out float progress))
         {
-            // Separate tests, not else-if: a window narrower than one frame still has to open and close.
             if (!opened && progress >= open)
             {
                 OpenHitbox(weapon);
                 opened = true;
             }
 
-            if (progress >= close) hitbox.End();   // Idempotent, and close >= open, so the window already ran.
+            if (progress >= close) hitbox.End();
 
             if (progress >= 1f) break;
 

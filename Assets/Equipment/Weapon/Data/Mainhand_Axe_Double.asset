@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Mainhand_Axe_Double
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Mainhand Axe Double
-  slot: 0
   mesh: {fileID: 8294026459578021466, guid: 206caa581ea3f9043b963d4ab4c13a91, type: 3}
   materials:
   - {fileID: 5653053145819516872, guid: 206caa581ea3f9043b963d4ab4c13a91, type: 3}
   - {fileID: 7662690262357861649, guid: 206caa581ea3f9043b963d4ab4c13a91, type: 3}
   - {fileID: -1190562860047596828, guid: 206caa581ea3f9043b963d4ab4c13a91, type: 3}
   - {fileID: -8027601932022264327, guid: 206caa581ea3f9043b963d4ab4c13a91, type: 3}
+  slot: 0
   drawn:
     socket: 0
     positionOffset: {x: 0, y: 0, z: 0}
@@ -28,3 +28,14 @@ MonoBehaviour:
     socket: 4
     positionOffset: {x: 0, y: 0, z: 0}
     rotationEulerOffset: {x: 0, y: 0, z: 0}
+  damage: 30
+  damageType: 1
+  staminaCost: 30
+  knockback: 2
+  attackClip: {fileID: -203655887218126122, guid: 6c6d4ba4ad251f14a8a2c32846b26a6b, type: 3}
+  hitboxOpen: 0.35
+  hitboxClose: 0.8
+  attackSpeed: 1
+  hitboxCenter: {x: 0, y: 0, z: 0.6}
+  hitboxSize: {x: 1, y: 0.3, z: 1}
+  blockPower: 30

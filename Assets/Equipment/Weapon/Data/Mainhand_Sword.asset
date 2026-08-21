@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Mainhand_Sword
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Mainhand Sword
-  slot: 0
   mesh: {fileID: 6282975544366222924, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
   materials:
   - {fileID: -1169036200065093545, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
@@ -21,6 +20,7 @@ MonoBehaviour:
   - {fileID: 6809642410825070797, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
   - {fileID: -6315416559770349970, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
   - {fileID: 8097329357525452317, guid: 93bd50c16db3c404dadd39070ed5bde1, type: 3}
+  slot: 0
   drawn:
     socket: 0
     positionOffset: {x: 0, y: 0, z: 0}
@@ -29,3 +29,14 @@ MonoBehaviour:
     socket: 4
     positionOffset: {x: 0, y: 0, z: 0}
     rotationEulerOffset: {x: 0, y: 0, z: 0}
+  damage: 15
+  damageType: 1
+  staminaCost: 15
+  knockback: 2
+  attackClip: {fileID: -203655887218126122, guid: a266bbdb36e46aa419a0955185ff1c8b, type: 3}
+  hitboxOpen: 0.3
+  hitboxClose: 0.55
+  attackSpeed: 1
+  hitboxCenter: {x: 0, y: 0, z: 0.7}
+  hitboxSize: {x: 0.3, y: 0.3, z: 1.2}
+  blockPower: 15

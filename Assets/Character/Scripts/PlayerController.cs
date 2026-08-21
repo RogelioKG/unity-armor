@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Third-person movement with a turn threshold: the body normally faces the camera
-/// (so A/D strafe), but once input points far enough away it turns to face the
-/// movement direction and runs forward. Backpedal clips become unnecessary.
+/// Third-person movement with a turn threshold: the body normally faces the camera (so A/D
+/// strafe), but once input points far enough away it turns to face the movement direction and
+/// runs forward. Backpedal clips become unnecessary.
 ///
-/// Requires Animator parameters MoveX / MoveZ (Float) and Jump (Trigger) driving a
-/// 2D Freeform Directional Blend Tree.
+/// Needs Animator parameters MoveX / MoveZ (Float) and Jump (Trigger) driving a 2D Freeform
+/// Directional Blend Tree.
 /// </summary>
 [RequireComponent(typeof(CharacterController), typeof(Animator), typeof(Stamina))]
 public class PlayerController : MonoBehaviour
@@ -53,12 +53,14 @@ public class PlayerController : MonoBehaviour
     private Transform cameraTransform;
     private InputAction moveAction, jumpAction, sprintAction;
 
-    // Collected once. This controller knows nothing about attacking, blocking or dodging —
-    // they arrive as IMovementOverride.
+    // Collected once: this controller knows nothing about attacking, blocking or dodging.
     private readonly List<IMovementOverride> movementOverrides = new();
 
+    // A stagger has to stop the jump too, not just the ground speed.
+    private readonly List<IActionLock> actionLocks = new();
+
     private Vector3 steerDirection;      // World space. What the player is asking for.
-    private Vector3 cameraForward;       // Camera's horizontal facing
+    private Vector3 cameraForward;       // Camera's horizontal facing.
     private Vector3 horizontalVelocity;  // What Move actually gets, m/s. Resolved once per frame.
     private float currentSpeed;
     private float verticalVelocity;
@@ -82,14 +84,15 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         stamina = GetComponent<Stamina>();
         GetComponents(movementOverrides);
+        GetComponents(actionLocks);
 
         var actions = InputSystem.actions;
         moveAction = actions.FindAction("Move");
         jumpAction = actions.FindAction("Jump");
         sprintAction = actions.FindAction("Sprint");
 
-        if (Camera.main != null)
-            cameraTransform = Camera.main.transform;
+        var mainCamera = Camera.main;
+        if (mainCamera != null) cameraTransform = mainCamera.transform;
 
         if (cameraTransform == null || moveAction == null || jumpAction == null)
         {
@@ -118,7 +121,8 @@ public class PlayerController : MonoBehaviour
         ResolveHorizontalVelocity();
         DrainSprintStamina();
         UpdateFacing();
-        HandleJumpAndGravity();
+        ApplyGravity();
+        TryJump();
         ApplyMovement();
         UpdateAnimator();
     }
@@ -127,24 +131,14 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 input = moveAction.ReadValue<Vector2>();
 
-        // Flatten Y, or a downward-looking camera makes the character walk into the ground.
-        cameraForward = cameraTransform.forward;
-        Vector3 cameraRight = cameraTransform.right;
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
-        cameraForward.Normalize();
-        cameraRight.Normalize();
+        cameraForward = Vector3.ProjectOnPlane(cameraTransform.forward, Vector3.up).normalized;
+        Vector3 cameraRight = Vector3.Cross(Vector3.up, cameraForward);
 
-        steerDirection = cameraForward * input.y + cameraRight * input.x;
-        if (steerDirection.sqrMagnitude > 1f)
-            steerDirection.Normalize();
+        steerDirection = Vector3.ClampMagnitude(cameraForward * input.y + cameraRight * input.x, 1f);
 
         bool moving = input.sqrMagnitude > 0.01f;
         bool sprintHeld = sprintAction != null && sprintAction.IsPressed();
 
-        // Sprint is the one action gated on more than an empty pool: drain floors at zero instead
-        // of overdrawing, so without a resume floor it would re-engage on the first frame of regen
-        // and stutter. Costed actions need no such floor, since overdraft locks them out outright.
         isSprinting = moving && sprintHeld && (isSprinting ? !stamina.IsExhausted : stamina.Current >= sprintResumeStamina);
         currentSpeed = moving ? (isSprinting ? sprintSpeed : walkSpeed) : 0f;
     }
@@ -157,7 +151,7 @@ public class PlayerController : MonoBehaviour
             stamina.Drain(sprintStaminaPerSecond);
     }
 
-    /// <summary>The one place horizontal motion is decided. A single winner drives it:
+    /// <summary>The one place horizontal motion is decided. A single winner drives it, so
     /// overrides never stack their multipliers.</summary>
     private void ResolveHorizontalVelocity()
     {
@@ -180,9 +174,9 @@ public class PlayerController : MonoBehaviour
     /// threshold test has no feedback loop and cannot oscillate mid-turn.</summary>
     private void UpdateFacing()
     {
-        // An override that steers the body owns its facing too, or a sideways dodge would swing
-        // back toward the camera halfway through.
-        if (movementDriven || currentSpeed <= 0f) return;
+        // An override that steers the body owns its facing too. Tested against the resolved
+        // velocity, so an override that scales movement to nothing pins the facing with it.
+        if (movementDriven || horizontalVelocity.sqrMagnitude <= 0.0001f) return;
 
         Vector3 facing = Vector3.Angle(cameraForward, steerDirection) > turnThreshold
             ? steerDirection
@@ -192,49 +186,48 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(facing), t);
     }
 
-    private void HandleJumpAndGravity()
+    private void ApplyGravity()
     {
-        if (controller.isGrounded)
+        if (!controller.isGrounded)
         {
-            lastGroundedTime = Time.time;
-            if (verticalVelocity < 0f)
-                verticalVelocity = -2f;   // Keep pressing down so isGrounded stays stable.
-        }
-        else
-        {
-            verticalVelocity = Mathf.Max(
-                verticalVelocity + gravity * Time.deltaTime, terminalVelocity);
+            verticalVelocity = Mathf.Max(verticalVelocity + gravity * Time.deltaTime, terminalVelocity);
+            return;
         }
 
-        // TryCommit last: && short circuits, so stamina is only spent on a jump that happens.
-        if (jumpAction.WasPressedThisFrame()
-            && Time.time - lastGroundedTime <= coyoteTime
-            && stamina.TryCommit(jumpStaminaCost))
-        {
-            // Clamp gravity negative so a mis-set positive value can't produce NaN.
-            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * Mathf.Min(gravity, -0.01f));
-            lastGroundedTime = Never;   // Consume the window to prevent mid-air double jumps.
+        lastGroundedTime = Time.time;
+        if (verticalVelocity < 0f) verticalVelocity = -2f;   // Keep pressing down so isGrounded stays stable.
+    }
 
-            animator.ResetTrigger(JumpHash);
-            animator.SetTrigger(JumpHash);
-        }
+    private void TryJump()
+    {
+        if (!jumpAction.WasPressedThisFrame()) return;
+        if (ActionLock.AnyBlocking(actionLocks, null)) return;
+        if (Time.time - lastGroundedTime > coyoteTime) return;
+
+        // Last of the gates: a jump refused above must not have paid for itself.
+        if (!stamina.TryCommit(jumpStaminaCost)) return;
+
+        verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * Mathf.Min(gravity, -0.01f));
+        lastGroundedTime = Never;
+
+        animator.ResetTrigger(JumpHash);
+        animator.SetTrigger(JumpHash);
     }
 
     /// <summary>Call Move once per frame. Two calls make the horizontal one report isGrounded as false.</summary>
     private void ApplyMovement()
         => controller.Move((horizontalVelocity + Vector3.up * verticalVelocity) * Time.deltaTime);
 
-    /// <summary>Convert to local space so the Blend Tree knows whether to strafe or run forward.
-    /// Reads the velocity actually applied, so an override that steers the body shows up here
-    /// too instead of the Blend Tree replaying raw input.</summary>
+    /// <summary>Local space so the Blend Tree knows whether to strafe or run forward. Reads the
+    /// velocity actually applied, not raw input, so overrides show up here too.</summary>
     private void UpdateAnimator()
     {
         // Ring thresholds are expressed per walk / sprint speed, so normalize by that speed.
         float reference = Mathf.Max(isSprinting ? sprintSpeed : walkSpeed, 0.01f);
-        Vector3 local = transform.InverseTransformDirection(horizontalVelocity) / reference;
-        float ring = isSprinting ? sprintRing : walkRing;
+        float scale = (isSprinting ? sprintRing : walkRing) / reference;
+        Vector3 local = transform.InverseTransformDirection(horizontalVelocity);
 
-        animator.SetFloat(MoveXHash, local.x * ring, animDamping, Time.deltaTime);
-        animator.SetFloat(MoveZHash, local.z * ring, animDamping, Time.deltaTime);
+        animator.SetFloat(MoveXHash, local.x * scale, animDamping, Time.deltaTime);
+        animator.SetFloat(MoveZHash, local.z * scale, animDamping, Time.deltaTime);
     }
 }

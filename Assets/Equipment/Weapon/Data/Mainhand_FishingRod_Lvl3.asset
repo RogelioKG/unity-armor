@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Mainhand_FishingRod_Lvl3
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Mainhand FishingRod Lvl3
-  slot: 0
   mesh: {fileID: 1276255971100932004, guid: 84e9aaac54c1a4b43a831b08f0b97ee1, type: 3}
   materials:
   - {fileID: -7545873477151259802, guid: 84e9aaac54c1a4b43a831b08f0b97ee1, type: 3}
   - {fileID: -4018286686147086024, guid: 84e9aaac54c1a4b43a831b08f0b97ee1, type: 3}
+  slot: 0
   drawn:
     socket: 0
     positionOffset: {x: 0, y: 0, z: 0}
@@ -26,3 +26,14 @@ MonoBehaviour:
     socket: 4
     positionOffset: {x: 0, y: 0, z: 0}
     rotationEulerOffset: {x: 0, y: 0, z: 0}
+  damage: 14
+  damageType: 2
+  staminaCost: 14
+  knockback: 2
+  attackClip: {fileID: -203655887218126122, guid: 6d811b514c56dc645b76343d72576070, type: 3}
+  hitboxOpen: 0.2
+  hitboxClose: 0.7
+  attackSpeed: 1.1
+  hitboxCenter: {x: 0, y: 0, z: 1.1}
+  hitboxSize: {x: 0.2, y: 0.2, z: 2.1}
+  blockPower: 14

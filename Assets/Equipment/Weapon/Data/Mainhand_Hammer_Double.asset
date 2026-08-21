@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Mainhand_Hammer_Double
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Mainhand Hammer Double
-  slot: 0
   mesh: {fileID: 7391689552586879615, guid: 24e7524c97d0407468b5f0837b1c785a, type: 3}
   materials:
   - {fileID: -8109223890375856091, guid: 24e7524c97d0407468b5f0837b1c785a, type: 3}
   - {fileID: 2794819930971982109, guid: 24e7524c97d0407468b5f0837b1c785a, type: 3}
   - {fileID: 6211963350999532829, guid: 24e7524c97d0407468b5f0837b1c785a, type: 3}
   - {fileID: -3813513559006137836, guid: 24e7524c97d0407468b5f0837b1c785a, type: 3}
+  slot: 0
   drawn:
     socket: 0
     positionOffset: {x: 0, y: 0, z: 0}
@@ -28,3 +28,14 @@ MonoBehaviour:
     socket: 4
     positionOffset: {x: 0, y: 0, z: 0}
     rotationEulerOffset: {x: 0, y: 0, z: 0}
+  damage: 40
+  damageType: 0
+  staminaCost: 40
+  knockback: 2
+  attackClip: {fileID: -203655887218126122, guid: 331b0e40fb4b1194f97c64d4ae0e3083, type: 3}
+  hitboxOpen: 0.4
+  hitboxClose: 0.7
+  attackSpeed: 1
+  hitboxCenter: {x: 0, y: 0, z: 0.6}
+  hitboxSize: {x: 0.8, y: 0.8, z: 1}
+  blockPower: 40

@@ -47,8 +47,8 @@ public class WeaponData : EquipmentData<WeaponSlot>
     public Vector3 hitboxSize = new(0.3f, 0.3f, 1.2f);
 
     [Header("Defense")]
-    [Tooltip("Reserved for blocking with this in the off hand. Zero for non-shields.")]
-    public float blockPower = 0f;
+    [Tooltip("How much of a hit a raised guard stops with this in hand. The off hand wins; the main hand only stands in when the off hand is empty. Zero guards nothing and costs no stamina either.")]
+    public float blockPower = 20f;
 
     public SocketPlacement PlacementFor(WeaponHoldState hold)
         => hold == WeaponHoldState.Holstered ? holstered : drawn;

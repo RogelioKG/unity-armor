@@ -8,15 +8,13 @@ using UnityEngine.InputSystem;
 /// for a parry. Absorbing costs stamina, and running the pool dry breaks the guard into a stagger.
 /// </summary>
 [RequireComponent(typeof(Animator), typeof(Stamina), typeof(Health))]
-[RequireComponent(typeof(WeaponState))]
-public class PlayerBlock : MonoBehaviour, IDamageModifier, IMovementOverride, IActionLock, IEquipLock
+[RequireComponent(typeof(WeaponState), typeof(PlayerStagger))]
+public class PlayerBlock : MonoBehaviour, IDamageModifier, IMovementOverride
 {
-    private const float Never = float.NegativeInfinity;
-
     [Header("Block")]
-    [Tooltip("Stamina paid per point of damage the guard absorbs. Raising the guard itself is free.")]
+    [Tooltip("Stamina paid per point of damage absorbed. Raising the guard itself is free.")]
     [SerializeField] private float blockStaminaPerDamage = 0.5f;
-    [Tooltip("Half-angle from the character's forward that the guard covers. Hits from behind land in full.")]
+    [Tooltip("Half-angle from forward that the guard covers. Hits from behind land in full.")]
     [Range(0f, 180f)]
     [SerializeField] private float blockAngle = 100f;
     [Range(0f, 1f)]
@@ -26,18 +24,11 @@ public class PlayerBlock : MonoBehaviour, IDamageModifier, IMovementOverride, IA
     [Tooltip("Window after the guard goes up where a hit is negated outright.")]
     [SerializeField] private float parryWindow = 0.2f;
 
-    [Header("Guard Break")]
-    [Tooltip("Seconds of stagger once a blocked hit empties the pool. No attacking or dodging out of it.")]
-    [SerializeField] private float guardBreakStun = 0.8f;
-    [Range(0f, 1f)]
-    [SerializeField] private float guardBreakMoveMultiplier = 0f;
-
     [Header("Animator")]
-    [Tooltip("Layer the guard pose plays on. Must match PlayerAttack's.")]
+    [Tooltip("Layer the guard pose plays on. Must match PlayerAttack's and PlayerStagger's.")]
     [SerializeField] private string actionLayer = "Action";
-    [Tooltip("Action layer state holding the guard pose.")]
     [SerializeField] private string blockState = "Block";
-    [Tooltip("Action layer state to drop back to when the guard comes down.")]
+    [Tooltip("State to drop back to when the guard comes down.")]
     [SerializeField] private string emptyState = "Empty";
     [SerializeField] private float blend = 0.15f;
 
@@ -47,23 +38,20 @@ public class PlayerBlock : MonoBehaviour, IDamageModifier, IMovementOverride, IA
     private Stamina stamina;
     private WeaponState weaponState;
     private Health health;
+    private PlayerStagger stagger;
     private InputAction blockAction;
 
     private int actionLayerIndex;
     private int blockStateHash, emptyStateHash;
 
-    private float guardRaisedTime = Never;
-    private float stunUntil = Never;
-    private bool blockPosePlaying;
+    private float guardRaisedTime;   // Only read while IsBlocking, so no sentinel needed.
+    private int posePlaying;         // Last pose this component put up; zero while a lock owns the layer.
 
     /// <summary>Armor resolves after this, a dodge's i-frames before it.</summary>
     public int Order => 0;
 
     /// <summary>True while the guard is actually up — not overruled by exhaustion, a stagger, a dodge or a swing.</summary>
     public bool IsBlocking { get; private set; }
-
-    /// <summary>Staggered by a broken guard: no attacking, no dodging, barely any movement.</summary>
-    public bool IsStunned => Time.time < stunUntil;
 
     /// <summary>The off hand's shield, or the main hand weapon when the off hand is empty. A
     /// holstered item guards nothing.</summary>
@@ -79,21 +67,15 @@ public class PlayerBlock : MonoBehaviour, IDamageModifier, IMovementOverride, IA
     /// <summary>Raised on a perfect block, carrying the hit that was negated.</summary>
     public event Action<DamageInfo> Parried;
 
-    /// <summary>Raised the moment a blocked hit empties the pool.</summary>
+    /// <summary>Raised the moment a blocked hit empties the pool, just before the stagger starts.</summary>
     public event Action GuardBroken;
 
     int IMovementOverride.Priority => 20;
 
-    bool IMovementOverride.IsActive => IsBlocking || IsStunned;
+    bool IMovementOverride.IsActive => IsBlocking;
 
     // Scale, not drive: a guard slows the character rather than steering it.
-    MovementIntent IMovementOverride.GetMovement() =>
-        MovementIntent.Scale(IsStunned ? guardBreakMoveMultiplier : blockMoveMultiplier);
-
-    // A guard can be dropped on any frame, so only the stagger locks.
-    bool IActionLock.BlocksActions => IsStunned;
-
-    bool IEquipLock.BlocksEquip => IsStunned;
+    MovementIntent IMovementOverride.GetMovement() => MovementIntent.Scale(blockMoveMultiplier);
 
     private void Awake()
     {
@@ -101,6 +83,7 @@ public class PlayerBlock : MonoBehaviour, IDamageModifier, IMovementOverride, IA
         stamina = GetComponent<Stamina>();
         weaponState = GetComponent<WeaponState>();
         health = GetComponent<Health>();
+        stagger = GetComponent<PlayerStagger>();
         GetComponents(actionLocks);
 
         blockAction = InputSystem.actions.FindAction("Block");
@@ -122,52 +105,44 @@ public class PlayerBlock : MonoBehaviour, IDamageModifier, IMovementOverride, IA
     private void OnEnable()
     {
         blockAction.Enable();
-
         health.AddModifier(this);
     }
 
     private void OnDisable()
     {
         blockAction.Disable();
-
         health.RemoveModifier(this);
 
-        // Polled, so a stale guard would keep scaling movement with nothing left to drop it.
         IsBlocking = false;
-        blockPosePlaying = false;
+        posePlaying = 0;
     }
 
-    /// <summary>Resolves whether the guard is up, then puts the pose where that answer says.</summary>
+    /// <summary>Resolves whether the guard is up, then puts the action layer where that answer says.</summary>
     private void Update()
     {
-        bool locked = ActionLock.AnyBlocking(actionLocks, this);
+        bool locked = ActionLock.AnyBlocking(actionLocks, null);
         bool wasBlocking = IsBlocking;
 
-        IsBlocking = blockAction.IsPressed() && !IsStunned && !stamina.IsExhausted && !locked;
+        IsBlocking = blockAction.IsPressed() && !stamina.IsExhausted && !locked;
 
-        // Timed from the guard coming up, not the key press: one raised during a swing gets its
-        // window when the swing lets go of the body.
         if (IsBlocking && !wasBlocking) guardRaisedTime = Time.time;
 
-        // A swing owns the action layer and has already crossfaded over the guard pose. Drop the
-        // bookkeeping instead of fighting it, and raise the guard again when the layer comes back.
         if (locked)
         {
-            blockPosePlaying = false;
+            posePlaying = 0;
             return;
         }
 
-        if (IsBlocking == blockPosePlaying) return;
+        int pose = IsBlocking ? blockStateHash : emptyStateHash;
+        if (pose == posePlaying) return;
 
-        blockPosePlaying = IsBlocking;
-        animator.PlayState(IsBlocking ? blockStateHash : emptyStateHash, blend, actionLayerIndex);
+        posePlaying = pose;
+        animator.PlayState(pose, blend, actionLayerIndex);
     }
 
     public float Modify(float amount, in DamageInfo info)
     {
-        if (amount <= 0f) return amount;
-
-        if (!IsBlocking || !IsFrontal(info)) return amount;
+        if (amount <= 0f || !IsBlocking || !IsFrontal(info)) return amount;
 
         if (Time.time - guardRaisedTime <= parryWindow)
         {
@@ -176,22 +151,21 @@ public class PlayerBlock : MonoBehaviour, IDamageModifier, IMovementOverride, IA
         }
 
         float absorbed = Mathf.Min(amount, BlockPower);
-        if (absorbed <= 0f) return amount;   // Nothing in hand worth guarding with, so no cost either.
+        if (absorbed <= 0f) return amount;
 
-        // Spend goes into debt rather than refusing: the price for overreaching is the stagger,
-        // not a hit that half connected.
         stamina.Spend(absorbed * blockStaminaPerDamage);
         if (stamina.IsExhausted) BreakGuard();
 
         return amount - absorbed;
     }
 
+    // How long the punishment lasts and what it locks is not the guard's call.
     private void BreakGuard()
     {
-        stunUntil = Time.time + guardBreakStun;
         IsBlocking = false;
 
         GuardBroken?.Invoke();
+        stagger.Trigger();
     }
 
     /// <summary>DamageInfo.Direction runs attacker to target, so flip it. Flattened: a hit from
@@ -201,7 +175,7 @@ public class PlayerBlock : MonoBehaviour, IDamageModifier, IMovementOverride, IA
         Vector3 incoming = -info.Direction;
         incoming.y = 0f;
 
-        if (incoming.sqrMagnitude < 0.0001f) return true;   // Directionless damage: give it to the player.
+        if (incoming.sqrMagnitude < 0.0001f) return true;
 
         return Vector3.Angle(transform.forward, incoming) <= blockAngle;
     }

@@ -8,12 +8,14 @@ public interface IDamageable
 }
 
 // One source of damage reduction: worn armor, a raised shield, a dodge's i-frames, a resistance
-// buff. Implementors register themselves with Health rather than Health knowing about any of
+// buff — or, running last, a vulnerability that multiplies whatever the rest left standing.
+// Implementors register themselves with Health rather than Health knowing about any of
 // them, which is what lets the player and a mindless enemy share the same Health component.
 public interface IDamageModifier
 {
     /// <summary>Lower runs first. Blocking (0) resolves before armor (10) so a fully absorbed
-    /// hit never reaches the armor curve at all. Equal values keep registration order.</summary>
+    /// hit never reaches the armor curve at all, and a stagger's vulnerability (20) multiplies what
+    /// survives both. Equal values keep registration order.</summary>
     int Order { get; }
 
     /// <summary>Returns what is left of the damage after this modifier. `amount` is the running

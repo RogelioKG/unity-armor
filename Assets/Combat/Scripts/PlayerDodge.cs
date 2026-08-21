@@ -25,10 +25,12 @@ public class PlayerDodge : MonoBehaviour, IDamageModifier, IMovementOverride, IA
     [SerializeField] private float invulnerableEnd = 0.45f;
 
     [Header("Animator")]
-    [Tooltip("Base layer state holding the dodge. A missing state only costs the pose: the dodge still moves and still has i-frames.")]
+    [Tooltip("Layer the dodge plays on. Must match PlayerBlock's and PlayerStagger's: a pose left on that layer would hide one played anywhere else.")]
+    [SerializeField] private string actionLayer = "Action";
+    [Tooltip("Action layer state holding the dodge. Missing, the dodge still moves and still has i-frames.")]
     [SerializeField] private string dodgeState = "Dodge";
-    [Tooltip("Base layer state to hand movement back to when the dodge ends.")]
-    [SerializeField] private string locomotionState = "Locomotion";
+    [Tooltip("Action layer state to drop back to when the dodge ends.")]
+    [SerializeField] private string emptyState = "Empty";
     [Tooltip("Crossfade time. The dodge turns the body over it too, so the turn stays hidden under the blend.")]
     [SerializeField] private float blend = 0.15f;
 
@@ -40,11 +42,11 @@ public class PlayerDodge : MonoBehaviour, IDamageModifier, IMovementOverride, IA
     private PlayerController controller;
     private InputAction dodgeAction;
 
-    private int dodgeStateHash, locomotionStateHash;
+    private int actionLayerIndex;
+    private int dodgeStateHash, emptyStateHash;
 
-    private Vector3 dodgeDirection;
+    private Vector3 dodgeVelocity;
     private Quaternion turnFrom, turnTo;
-    private float dodgeSpeed;
     private float dodgeStartTime;   // Only read while IsDodging, so no sentinel needed.
 
     /// <summary>First in the pipeline: a dodged hit never reaches the guard or the armor curve.</summary>
@@ -70,7 +72,7 @@ public class PlayerDodge : MonoBehaviour, IDamageModifier, IMovementOverride, IA
     bool IMovementOverride.IsActive => IsDodging;
 
     // Drive, not scale: the dodge steers the body rather than slowing it.
-    MovementIntent IMovementOverride.GetMovement() => MovementIntent.Drive(dodgeDirection * dodgeSpeed);
+    MovementIntent IMovementOverride.GetMovement() => MovementIntent.Drive(dodgeVelocity);
 
     bool IActionLock.BlocksActions => IsDodging;
 
@@ -93,25 +95,24 @@ public class PlayerDodge : MonoBehaviour, IDamageModifier, IMovementOverride, IA
             return;
         }
 
+        actionLayerIndex = animator.GetLayerIndex(actionLayer);
+
         // A missing pose is a warning rather than a shutdown: the numbers work without it.
-        dodgeStateHash = animator.ResolveState(0, dodgeState, this);
-        locomotionStateHash = animator.ResolveState(0, locomotionState, this);
+        dodgeStateHash = animator.ResolveState(actionLayerIndex, dodgeState, this);
+        emptyStateHash = animator.ResolveState(actionLayerIndex, emptyState, this);
     }
 
     private void OnEnable()
     {
         dodgeAction.Enable();
-
         health.AddModifier(this);
     }
 
     private void OnDisable()
     {
         dodgeAction.Disable();
-
         health.RemoveModifier(this);
 
-        // Polled, so a stale dodge would keep driving movement with nothing left to end it.
         IsDodging = false;
     }
 
@@ -131,17 +132,17 @@ public class PlayerDodge : MonoBehaviour, IDamageModifier, IMovementOverride, IA
 
         if (!stamina.TryCommit(dodgeStaminaCost)) return;
 
-        dodgeDirection = DodgeDirection();
+        Vector3 direction = DodgeDirection();
+        float speed = controller.CurrentSpeed > 0f ? controller.CurrentSpeed : dodgeDefaultSpeed;
 
-        dodgeSpeed = controller.CurrentSpeed > 0f ? controller.CurrentSpeed : dodgeDefaultSpeed;
-
+        dodgeVelocity = direction * speed;
         dodgeStartTime = Time.time;
         IsDodging = true;
 
         turnFrom = transform.rotation;
-        turnTo = Quaternion.LookRotation(dodgeDirection);
+        turnTo = Quaternion.LookRotation(direction);
 
-        animator.PlayState(dodgeStateHash, blend, 0);
+        animator.PlayState(dodgeStateHash, blend, actionLayerIndex);
     }
 
     /// <summary>Where the player is asking to go, falling back to straight ahead. Read off the
@@ -164,7 +165,7 @@ public class PlayerDodge : MonoBehaviour, IDamageModifier, IMovementOverride, IA
         if (elapsed < dodgeDuration) return;
 
         IsDodging = false;
-        animator.PlayState(locomotionStateHash, blend, 0);
+        animator.PlayState(emptyStateHash, blend, actionLayerIndex);
     }
 
     /// <summary>Turns under cover of the crossfade, then stops writing rotation at all: nothing

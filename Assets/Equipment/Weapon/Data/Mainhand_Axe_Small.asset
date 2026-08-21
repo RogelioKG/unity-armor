@@ -13,18 +13,29 @@ MonoBehaviour:
   m_Name: Mainhand_Axe_Small
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Mainhand Axe Small
-  slot: 0
   mesh: {fileID: -6058309353901351690, guid: 996c706acfe7de14c98b217253fcf6c8, type: 3}
   materials:
   - {fileID: -3375883124750178135, guid: 996c706acfe7de14c98b217253fcf6c8, type: 3}
   - {fileID: -5884569320117816668, guid: 996c706acfe7de14c98b217253fcf6c8, type: 3}
   - {fileID: -6242737233611949864, guid: 996c706acfe7de14c98b217253fcf6c8, type: 3}
   - {fileID: 7300850394942262111, guid: 996c706acfe7de14c98b217253fcf6c8, type: 3}
+  slot: 0
   drawn:
     socket: 0
     positionOffset: {x: 0, y: 0, z: 0}
     rotationEulerOffset: {x: 0, y: 0, z: 0}
   holstered:
-    socket: 4
+    socket: 3
     positionOffset: {x: 0, y: 0, z: 0}
     rotationEulerOffset: {x: 0, y: 0, z: 0}
+  damage: 15
+  damageType: 1
+  staminaCost: 15
+  knockback: 2
+  attackClip: {fileID: -203655887218126122, guid: 026422777c682c546a6aef3e5c18b7bd, type: 3}
+  hitboxOpen: 0.25
+  hitboxClose: 0.4
+  attackSpeed: 1.1
+  hitboxCenter: {x: -0.2, y: 0, z: 0.3}
+  hitboxSize: {x: 0.8, y: 0.3, z: 0.6}
+  blockPower: 15

@@ -25,7 +25,7 @@ public class PlayerAttack : MonoBehaviour, IMovementOverride, IEquipLock, IActio
     [Header("Animator")]
     [Tooltip("Layer the swing plays on. Must match PlayerBlock's.")]
     [SerializeField] private string actionLayer = "Action";
-    [SerializeField] private string attackState = "AttackSlash";
+    [SerializeField] private string attackState = "Attack";
     [Tooltip("Seconds spent blending into the swing. Short values make attacks snappy.")]
     [SerializeField] private float attackBlend = 0.25f;
     [Tooltip("The clip the attack state already plays. Weapons carrying their own swing replace this one; leave it empty to keep every weapon on the Animator's clip.")]

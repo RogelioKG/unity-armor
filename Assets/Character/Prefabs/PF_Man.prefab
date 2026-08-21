@@ -89,13 +89,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 407140428863323370}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.04472045, y: 9.663373e-13, z: 1.1208812e-12, w: 0.99899954}
-  m_LocalPosition: {x: -0.000000001808456, y: -0.00012565148, z: -0.00014273591}
+  m_LocalRotation: {x: 0.71783674, y: -0.17118137, z: -0.18974277, w: 0.6476149}
+  m_LocalPosition: {x: 0.0022765617, y: 0.0032573477, z: -0.0009377778}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7613388024952180411}
-  m_LocalEulerAnglesHint: {x: 5.126, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 120.14, y: 79.769, z: 78.211}
 --- !u!114 &4933193812914426080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -952,7 +952,13 @@ GameObject:
   - component: {fileID: 2222369565052305059}
   - component: {fileID: 5254938643670741441}
   - component: {fileID: 6838881902252795862}
-  - component: {fileID: 8801926843234750010}
+  - component: {fileID: 2775266012642579334}
+  - component: {fileID: 3942874516464728796}
+  - component: {fileID: 2330675077765047265}
+  - component: {fileID: -8342725844404711813}
+  - component: {fileID: -2327072450768984455}
+  - component: {fileID: -7320338930073473863}
+  - component: {fileID: -623870926745999846}
   m_Layer: 8
   m_Name: PF_Man
   m_TagString: Player
@@ -1044,7 +1050,9 @@ MonoBehaviour:
   gravity: -20
   coyoteTime: 0.15
   terminalVelocity: -30
-  cameraTransform: {fileID: 0}
+  sprintStaminaPerSecond: 12
+  jumpStaminaCost: 15
+  sprintResumeStamina: 10
   animDamping: 0.1
   walkRing: 1
   sprintRing: 2
@@ -1136,6 +1144,128 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponRenderer
   rig: {fileID: 1797139669623895266}
+--- !u!114 &2775266012642579334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037621766562820899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb3d2424ecfb174d9322b1c1bebc2b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 100
+  startingHealth: 0
+  invulnerable: 0
+--- !u!114 &3942874516464728796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037621766562820899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5bdc85beba126541bc7d9101a2d5ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stamina
+  maxStamina: 100
+  overdraftLimit: 0.5
+  regenPerSecond: 20
+  regenDelay: 1
+--- !u!114 &2330675077765047265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037621766562820899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55784bab6b15202449302b24e49c1ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeHitbox
+--- !u!114 &-8342725844404711813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037621766562820899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd21e9dfe9f9e4429350feaa7542e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  attackMoveMultiplier: 0.1
+  actionLayer: Action
+  attackState: Attack
+  attackBlend: 0.25
+  defaultAttackClip: {fileID: -203655887218126122, guid: a266bbdb36e46aa419a0955185ff1c8b, type: 3}
+--- !u!114 &-2327072450768984455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037621766562820899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d707bbdca468541a316241057d66f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBlock
+  blockStaminaPerDamage: 0.5
+  blockAngle: 100
+  blockMoveMultiplier: 0.1
+  parryWindow: 0.2
+  actionLayer: Action
+  blockState: Block
+  emptyState: Empty
+  blend: 0.15
+--- !u!114 &-7320338930073473863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037621766562820899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1769bd81bb4e4b0c98e15589413fa71c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDodge
+  dodgeStaminaCost: 25
+  dodgeDefaultSpeed: 2
+  dodgeDuration: 0.8
+  invulnerableStart: 0.1
+  invulnerableEnd: 0.45
+  actionLayer: Action
+  dodgeState: Dodge
+  emptyState: Empty
+  blend: 0.15
+--- !u!114 &-623870926745999846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037621766562820899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8a6d21c4b7e9f4a8d5c2e70b1946ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStagger
+  defaultDuration: 0.8
+  moveMultiplier: 0
+  damageMultiplier: 2
+  actionLayer: Action
+  staggerState: Stagger
+  blend: 0.15
 --- !u!1 &5053387473685009625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1910,16 +2040,3 @@ Transform:
   - {fileID: 1938519413532517734}
   m_Father: {fileID: 4030976312251706235}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8801926843234750010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5037621766562820899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ee775b98fef41d80e241e0d763e135, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axisLength: 0.05

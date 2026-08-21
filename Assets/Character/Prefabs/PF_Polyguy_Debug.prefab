@@ -64,10 +64,10 @@ PrefabInstance:
       addedObject: {fileID: 8215976188456288247}
     - targetCorrespondingSourceObject: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
       insertIndex: 13
-      addedObject: {fileID: 4125738517813595718}
+      addedObject: {fileID: 1818295410775815415}
     - targetCorrespondingSourceObject: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
       insertIndex: 14
-      addedObject: {fileID: 1818295410775815415}
+      addedObject: {fileID: 4125738517813595718}
     - targetCorrespondingSourceObject: {fileID: 7303330017946600186, guid: 78bd1843a1ad129449d6d5f06367fcd6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4732346097632211987}
@@ -191,6 +191,36 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 186687be734a8994188922594a3c3f1d, type: 2}
     - {fileID: 11400000, guid: ff58e44e16d8b4a4c99d2f97e8bf6024, type: 2}
     - {fileID: 11400000, guid: 4997c6d520039044788f6cf805cf07d2, type: 2}
+--- !u!114 &1818295410775815415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465932085967033267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4953756306393244185075f074ae9b80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AppearanceTester
+  state: {fileID: 6049112434174407675}
+  sets:
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 19551da93164a0243abc690d797750b8, type: 2}
+    - {fileID: 11400000, guid: b2cb389d04c59fd4d8959543508992a3, type: 2}
+    - {fileID: 11400000, guid: 63573c0141c82d8428ca08f32eb4d933, type: 2}
+    - {fileID: 11400000, guid: c764d9158f50360439bc50976624d653, type: 2}
+    - {fileID: 11400000, guid: 143b135915b1819439d8fe9a10bdde01, type: 2}
+    - {fileID: 11400000, guid: a6e16eeb20469404dbacdbbb92c254c7, type: 2}
+  - setName: 
+    pieces:
+    - {fileID: 11400000, guid: 32cabc7040c2ca042aa366a8c258ced7, type: 2}
+    - {fileID: 11400000, guid: 1a9c62763cbad414eb433fa630930a40, type: 2}
+    - {fileID: 11400000, guid: 71237ee35ba8eb044b0a557fa37c23d1, type: 2}
+    - {fileID: 11400000, guid: 513f7f02441afdb40bf1f3c4d3aba13c, type: 2}
+    - {fileID: 11400000, guid: d20c1b6e51b46a8459599d7d6dc671f8, type: 2}
+    - {fileID: 11400000, guid: 6593264ab2bf82e489d4addfafc63ebd, type: 2}
 --- !u!114 &4125738517813595718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +252,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1509133b8f858ea48b871513dc384fd4, type: 2}
   - setName: 
     pieces:
+    - {fileID: 11400000, guid: 04686b6618c1a044ba9521a3716f4d4f, type: 2}
+  - setName: 
+    pieces:
     - {fileID: 11400000, guid: 00fb61dcd70dc414a928573a10e2d5a6, type: 2}
   - setName: 
     pieces:
@@ -229,36 +262,6 @@ MonoBehaviour:
   - setName: 
     pieces:
     - {fileID: 11400000, guid: edb4bd0a7e124864989df18788123366, type: 2}
---- !u!114 &1818295410775815415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7465932085967033267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4953756306393244185075f074ae9b80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AppearanceTester
-  state: {fileID: 6049112434174407675}
-  sets:
-  - setName: 
-    pieces:
-    - {fileID: 11400000, guid: 19551da93164a0243abc690d797750b8, type: 2}
-    - {fileID: 11400000, guid: b2cb389d04c59fd4d8959543508992a3, type: 2}
-    - {fileID: 11400000, guid: 63573c0141c82d8428ca08f32eb4d933, type: 2}
-    - {fileID: 11400000, guid: c764d9158f50360439bc50976624d653, type: 2}
-    - {fileID: 11400000, guid: 143b135915b1819439d8fe9a10bdde01, type: 2}
-    - {fileID: 11400000, guid: a6e16eeb20469404dbacdbbb92c254c7, type: 2}
-  - setName: 
-    pieces:
-    - {fileID: 11400000, guid: 32cabc7040c2ca042aa366a8c258ced7, type: 2}
-    - {fileID: 11400000, guid: 1a9c62763cbad414eb433fa630930a40, type: 2}
-    - {fileID: 11400000, guid: 71237ee35ba8eb044b0a557fa37c23d1, type: 2}
-    - {fileID: 11400000, guid: 513f7f02441afdb40bf1f3c4d3aba13c, type: 2}
-    - {fileID: 11400000, guid: d20c1b6e51b46a8459599d7d6dc671f8, type: 2}
-    - {fileID: 11400000, guid: 6593264ab2bf82e489d4addfafc63ebd, type: 2}
 --- !u!114 &4732346097632211987
 MonoBehaviour:
   m_ObjectHideFlags: 0
